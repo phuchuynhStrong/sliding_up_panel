@@ -128,6 +128,41 @@ There are several options that allow for more control:
 | `isDraggable` | Allows toggling of draggability of the SlidingUpPanel. Set this to false to prevent the user from being able to drag the panel up and down. Defaults to true. |
 | `slideDirection` | Either `SlideDirection.UP` or `SlideDirection.DOWN`. Indicates which way the panel should slide. Defaults to `UP`. If set to `DOWN`, the panel attaches itself to the top of the screen and is fully opened when the user swipes down on the panel. |
 | `defaultPanelState` | The default state of the panel; either PanelState.OPEN or `PanelState.CLOSED`. This value defaults to `PanelState.CLOSED` which indicates that the panel is in the closed position and must be opened. `PanelState.OPEN` indicates that by default the Panel is open and must be swiped closed by the user. |
+| `respectSafeArea` | If true (default), the panel will respect safe area insets (e.g., system navigation bars, notches, rounded corners). This ensures the panel and body don't extend behind system UI elements in edge-to-edge mode (Android 16+/SDK 36+). Set to false for legacy behavior. |
+
+<br>
+<br>
+
+### Edge-to-Edge Mode Compatibility (Android 16+ / SDK 36+)
+Starting with Android 16 (SDK 36), apps display in edge-to-edge mode by default. SlidingUpPanel now supports this out of the box with the `respectSafeArea` parameter (enabled by default).
+
+**Recommended setup for edge-to-edge compatibility:**
+
+```dart
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Enable edge-to-edge mode
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+
+    return MaterialApp(
+      // Apply SafeArea to all routes via builder
+      builder: (context, child) {
+        return SafeArea(child: child!);
+      },
+      home: HomePage(),
+    );
+  }
+}
+```
+
+With this setup, `SlidingUpPanel` will automatically respect system UI insets (navigation bars, notches, etc.) and won't overlap with system buttons. The `respectSafeArea` parameter defaults to `true`, but you can set it to `false` if you need the legacy behavior.
 
 <br>
 <br>
