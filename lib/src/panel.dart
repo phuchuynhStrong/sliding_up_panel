@@ -159,6 +159,11 @@ class SlidingUpPanel extends StatefulWidget {
   /// by default the Panel is open and must be swiped closed by the user.
   final PanelState defaultPanelState;
 
+  /// If true, the panel will respect safe area insets (e.g., system navigation bars,
+  /// notches). This ensures the panel and body don't extend behind system UI elements
+  /// in edge-to-edge mode. Defaults to true for Android 16+ compatibility.
+  final bool respectSafeArea;
+
   SlidingUpPanel(
       {Key? key,
       this.panel,
@@ -194,6 +199,7 @@ class SlidingUpPanel extends StatefulWidget {
       this.isDraggable = true,
       this.slideDirection = SlideDirection.UP,
       this.defaultPanelState = PanelState.CLOSED,
+      this.respectSafeArea = true,
       this.header,
       this.footer})
       : assert(panel != null || panelBuilder != null),
@@ -248,6 +254,12 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final safePadding = widget.respectSafeArea ? mediaQuery.padding : EdgeInsets.zero;
+    final screenHeight = mediaQuery.size.height;
+    final screenWidth = mediaQuery.size.width;
+    final safeHeight = screenHeight - safePadding.top - safePadding.bottom;
+
     return Stack(
       alignment: widget.slideDirection == SlideDirection.UP
           ? Alignment.bottomCenter
@@ -264,8 +276,8 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                   );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+                  height: widget.respectSafeArea ? safeHeight : screenHeight,
+                  width: screenWidth,
                   child: widget.body,
                 ),
               )
@@ -290,8 +302,8 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                     animation: _ac,
                     builder: (context, _) {
                       return Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
+                        height: widget.respectSafeArea ? safeHeight : screenHeight,
+                        width: screenWidth,
 
                         //set color to null so that touch events pass through
                         //to the body when the panel is closed, otherwise,
@@ -338,7 +350,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                           bottom: widget.slideDirection == SlideDirection.DOWN
                               ? 0.0
                               : null,
-                          width: MediaQuery.of(context).size.width -
+                          width: screenWidth -
                               (widget.margin != null
                                   ? widget.margin!.horizontal
                                   : 0) -
@@ -387,7 +399,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
                         bottom: widget.slideDirection == SlideDirection.DOWN
                             ? 0.0
                             : null,
-                        width: MediaQuery.of(context).size.width -
+                        width: screenWidth -
                             (widget.margin != null
                                 ? widget.margin!.horizontal
                                 : 0) -

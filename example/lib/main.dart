@@ -21,10 +21,12 @@ void main() => runApp(SlidingUpPanelExample());
 class SlidingUpPanelExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Enable edge-to-edge mode for Android 16+ (SDK 36+) compatibility
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.grey[200],
+      systemNavigationBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarDividerColor: Colors.black,
+      systemNavigationBarDividerColor: Colors.transparent,
     ));
 
     return MaterialApp(
@@ -33,6 +35,12 @@ class SlidingUpPanelExample extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // Apply SafeArea to all routes via builder for edge-to-edge compatibility
+      builder: (context, child) {
+        return SafeArea(
+          child: child!,
+        );
+      },
       home: HomePage(),
     );
   }
@@ -74,6 +82,7 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18.0),
                 topRight: Radius.circular(18.0)),
+            // respectSafeArea: true by default - works with edge-to-edge mode
             onPanelSlide: (double pos) => setState(() {
               _fabHeight = pos * (_panelHeightOpen - _panelHeightClosed) +
                   _initFabHeight;

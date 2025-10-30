@@ -1,3 +1,14 @@
+## [2.0.1] - [October 30, 2025]
+### Features
+- Added `respectSafeArea` parameter (defaults to `true`) to support Android 16+ (SDK 36+) edge-to-edge mode
+- Panel and body now automatically respect system UI insets (navigation bars, notches, rounded corners)
+- Prevents overlap with system navigation buttons in edge-to-edge mode
+
+### Documentation
+- Added Edge-to-Edge Mode Compatibility section with recommended setup
+- Updated parameter documentation table with `respectSafeArea` description
+- Updated example app to demonstrate edge-to-edge mode with SafeArea in MaterialApp builder
+
 ## [2.0.0+1] - [April 26, 2021]
 ### Features
 - Formatted code according to dartfmt
