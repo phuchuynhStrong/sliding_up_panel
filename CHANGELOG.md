@@ -4,11 +4,13 @@
 - Panel and body now automatically respect bottom safe area insets (system navigation bar)
 - Prevents overlap with system navigation buttons in edge-to-edge mode
 - Top safe area (status bar/notch) should be handled by your app's AppBar/Scaffold
+- Uses `MediaQuery.viewPadding` instead of `MediaQuery.padding` to work correctly when SafeArea is applied at MaterialApp builder level
 
 ### Documentation
 - Added Edge-to-Edge Mode Compatibility section with recommended setup
 - Updated parameter documentation table with `respectSafeArea` description
 - Updated example app to demonstrate edge-to-edge mode with SafeArea in MaterialApp builder
+- Added technical note explaining viewPadding vs padding behavior
 
 ## [2.0.0+1] - [April 26, 2021]
 ### Features

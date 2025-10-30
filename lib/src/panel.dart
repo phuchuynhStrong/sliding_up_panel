@@ -256,7 +256,9 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final safePadding = widget.respectSafeArea ? mediaQuery.padding : EdgeInsets.zero;
+    // Use viewPadding instead of padding to get actual system UI insets
+    // viewPadding is never consumed by SafeArea, unlike padding which becomes zero
+    final safePadding = widget.respectSafeArea ? mediaQuery.viewPadding : EdgeInsets.zero;
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
     // For sliding up panels, only respect bottom safe area (navigation bar)

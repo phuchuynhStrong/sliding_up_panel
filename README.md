@@ -164,6 +164,8 @@ class MyApp extends StatelessWidget {
 
 With this setup, `SlidingUpPanel` will automatically respect the bottom safe area inset (navigation bar) and won't overlap with system navigation buttons. The top safe area (status bar/notch) is handled by the SafeArea wrapper and your app's AppBar/Scaffold. The `respectSafeArea` parameter defaults to `true`, but you can set it to `false` if you need the legacy behavior.
 
+**Technical Note:** `SlidingUpPanel` uses `MediaQuery.viewPadding` (not `MediaQuery.padding`) to access system UI insets. This ensures it works correctly even when wrapped in SafeArea at the MaterialApp builder level, as `viewPadding` always reflects the actual system insets while `padding` is consumed by SafeArea.
+
 <br>
 <br>
 
