@@ -159,9 +159,10 @@ class SlidingUpPanel extends StatefulWidget {
   /// by default the Panel is open and must be swiped closed by the user.
   final PanelState defaultPanelState;
 
-  /// If true, the panel will respect safe area insets (e.g., system navigation bars,
-  /// notches). This ensures the panel and body don't extend behind system UI elements
-  /// in edge-to-edge mode. Defaults to true for Android 16+ compatibility.
+  /// If true, the panel will respect bottom safe area insets (system navigation bar).
+  /// This ensures the panel and body don't extend behind the bottom navigation bar
+  /// in edge-to-edge mode. Top safe area (status bar/notch) should be handled by
+  /// your app's AppBar/Scaffold. Defaults to true for Android 16+ compatibility.
   final bool respectSafeArea;
 
   SlidingUpPanel(
@@ -258,7 +259,9 @@ class _SlidingUpPanelState extends State<SlidingUpPanel>
     final safePadding = widget.respectSafeArea ? mediaQuery.padding : EdgeInsets.zero;
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
-    final safeHeight = screenHeight - safePadding.top - safePadding.bottom;
+    // For sliding up panels, only respect bottom safe area (navigation bar)
+    // Top safe area (status bar/notch) is handled by the app's AppBar/Scaffold
+    final safeHeight = screenHeight - safePadding.bottom;
 
     return Stack(
       alignment: widget.slideDirection == SlideDirection.UP

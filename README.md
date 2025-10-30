@@ -128,7 +128,7 @@ There are several options that allow for more control:
 | `isDraggable` | Allows toggling of draggability of the SlidingUpPanel. Set this to false to prevent the user from being able to drag the panel up and down. Defaults to true. |
 | `slideDirection` | Either `SlideDirection.UP` or `SlideDirection.DOWN`. Indicates which way the panel should slide. Defaults to `UP`. If set to `DOWN`, the panel attaches itself to the top of the screen and is fully opened when the user swipes down on the panel. |
 | `defaultPanelState` | The default state of the panel; either PanelState.OPEN or `PanelState.CLOSED`. This value defaults to `PanelState.CLOSED` which indicates that the panel is in the closed position and must be opened. `PanelState.OPEN` indicates that by default the Panel is open and must be swiped closed by the user. |
-| `respectSafeArea` | If true (default), the panel will respect safe area insets (e.g., system navigation bars, notches, rounded corners). This ensures the panel and body don't extend behind system UI elements in edge-to-edge mode (Android 16+/SDK 36+). Set to false for legacy behavior. |
+| `respectSafeArea` | If true (default), the panel will respect bottom safe area insets (system navigation bar). This ensures the panel and body don't extend behind the bottom navigation bar in edge-to-edge mode (Android 16+/SDK 36+). Top safe area (status bar/notch) should be handled by your app's AppBar/Scaffold. Set to false for legacy behavior. |
 
 <br>
 <br>
@@ -162,7 +162,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-With this setup, `SlidingUpPanel` will automatically respect system UI insets (navigation bars, notches, etc.) and won't overlap with system buttons. The `respectSafeArea` parameter defaults to `true`, but you can set it to `false` if you need the legacy behavior.
+With this setup, `SlidingUpPanel` will automatically respect the bottom safe area inset (navigation bar) and won't overlap with system navigation buttons. The top safe area (status bar/notch) is handled by the SafeArea wrapper and your app's AppBar/Scaffold. The `respectSafeArea` parameter defaults to `true`, but you can set it to `false` if you need the legacy behavior.
 
 <br>
 <br>
